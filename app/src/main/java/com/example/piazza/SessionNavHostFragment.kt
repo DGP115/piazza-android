@@ -10,8 +10,8 @@ import androidx.fragment.app.activityViewModels
 
 class SessionNavHostFragment : TurboSessionNavHostFragment() {
     override var sessionName = "default"
-   // override var startLocation = Api.rootUrl
-    override var startLocation = "https://google.com"
+    override var startLocation = Api.rootUrl
+   // override var startLocation = "https://google.com"
 
     val tabsViewModel: TabsViewModel by activityViewModels()
 
