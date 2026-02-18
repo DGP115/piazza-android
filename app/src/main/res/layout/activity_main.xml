@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!-- This is the outermost layer of the view hierarchy
+    Recall, within this is SessionNavHostFragment, which contains WebFragment
+
+    A SessionNavHostFragment needs to be added within this class. Then, an instance
+    of TurboActivityDelegate has to be instantiated with a reference to that
+    SessionNavHostFragment so Turbo Native can find it. -->
+
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"

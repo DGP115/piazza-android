@@ -1,5 +1,11 @@
 package com.example.piazza
 import androidx.lifecycle.ViewModel
+
+// This kotlin class does the following:
+//  - inform Turbo Native of the 5 different SessionNavHostFragments of the toolbar
+//  - wire up the tab switching logic between them and the toolbar.
+// Android has a ViewModel class which has been subclassed here.
+// It provides handy lifecycle management under the hood.
 class TabsViewModel : ViewModel() {
     data class Tab(val id: Int, val url: String)
     val tabs: List<Tab> = createTabs()

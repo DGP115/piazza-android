@@ -8,12 +8,19 @@ import kotlin.reflect.KClass
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
 
+
+//This class defines everything the session needs to know to communicate with
+//the Rails server and perform navigation.
 class SessionNavHostFragment : TurboSessionNavHostFragment() {
     override var sessionName = "default"
     override var startLocation = Api.rootUrl
    // override var startLocation = "https://google.com"
 
     val tabsViewModel: TabsViewModel by activityViewModels()
+
+    //The list of Activities and Fragments that Turbo Native can navigate to need
+    //to be registered. The app has a single Activity so that list can be empty.
+    //WebFragment is registered so it can be navigated to.
 
     override val registeredActivities:
             List<KClass<out AppCompatActivity>>
@@ -31,11 +38,15 @@ class SessionNavHostFragment : TurboSessionNavHostFragment() {
         super.onCreate(savedInstanceState)
     }
 
+    //The user agent is set on the session’s web view so the Rails server can detect
+    //requests made from the app.
     override fun onSessionCreated() {
         super.onSessionCreated()
         session.webView.settings.userAgentString =
             "Piazza Turbo Native Android"
     }
+
+    //Pass in the path configuration.
     override val pathConfigurationLocation:
             TurboPathConfiguration.Location
         get() = TurboPathConfiguration.Location(

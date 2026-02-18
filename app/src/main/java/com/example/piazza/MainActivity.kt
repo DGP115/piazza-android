@@ -21,8 +21,13 @@ class MainActivity : AppCompatActivity(), TurboActivity {
      */
     private val tabsViewModel: TabsViewModel by viewModels()
 
-
-
+    /*
+    Below, the call to setContentView which is passed a reference to the
+    XML layout of the activities [activity_man]. This means the layout XML will be
+    deserialized and laid out within the MainActivity when it is displayed.
+    That puts SessionNavHostFragment on screen and Turbo Native takes
+    care of the rest!
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -35,6 +40,12 @@ class MainActivity : AppCompatActivity(), TurboActivity {
 
     }
 
+    /*
+    Next, MainActivity needs to implement the TurboActivity interface.
+    This entails creating an instance of TurboActivityDelegate and passing
+    in a reference to the SessionNavHostFragments, of which we have 5.
+     */
+
     private fun configureTurboDelegates() {
         delegate =
             TurboActivityDelegate(this, tabsViewModel.tabs.first().id)
@@ -43,6 +54,14 @@ class MainActivity : AppCompatActivity(), TurboActivity {
         }
     }
 
+
+    // Tab switching logic:
+    //   Get references to the relevant views using their XML IDs.
+    //   The listener on the tabBar is fired whenever a new item is selected.
+    //   Within it, the displayed view is updated to the one corresponding to the selected tab.
+    //
+    // TurboActivityDelegate is also updated with the newly selected
+    // NavHostFragment and its web view is refreshed.
     private fun configureTabs() {
         tabSwitcher = findViewById(R.id.tabSwitcher)
         tabBar = findViewById(R.id.tabBar)
