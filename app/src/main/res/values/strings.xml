@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Piazza</string>
+
+    <string name="tab_home">Home</string>
+    <string name="tab_saved_ads">Saved Ads</string>
+    <string name="tab_messages">Messages</string>
+    <string name="tab_my_ads">My Ads</string>
+    <string name="tab_profile">Profile</string>
 </resources>

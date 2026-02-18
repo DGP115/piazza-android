@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/tab_home"
+        android:title="@string/tab_home"
+        android:icon="@drawable/ic_tab_home"/>
+    <item
+        android:id="@+id/tab_saved_ads"
+        android:title="@string/tab_saved_ads"
+        android:icon="@drawable/ic_tab_saved_ads"/>
+    <item
+        android:id="@+id/tab_messages"
+        android:title="@string/tab_messages"
+        android:icon="@drawable/ic_tab_messages"/>
+    <item
+        android:id="@+id/tab_my_ads"
+        android:title="@string/tab_my_ads"
+        android:icon="@drawable/ic_tab_my_ads"/>
+    <item
+        android:id="@+id/tab_profile"
+        android:title="@string/tab_profile"
+        android:icon="@drawable/ic_tab_profile"/>
+</menu>

@@ -1,15 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".MainActivity">
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/main_nav_host"
-            android:name="com.example.piazza.SessionNavHostFragment"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/tabBar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:menu="@menu/tabs"
             />
+
+        <ViewFlipper
+            android:id="@+id/tabSwitcher"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:measureAllChildren="false"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tabBar"
+            >
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/tab_home"
+                    android:name="com.example.piazza.SessionNavHostFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:tag="home"
+                    />
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/tab_saved_ads"
+                    android:name="com.example.piazza.SessionNavHostFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:tag="saved_ads"
+                    />
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/tab_messages"
+                    android:name="com.example.piazza.SessionNavHostFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:tag="messages"
+                    />
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/tab_my_ads"
+                    android:name="com.example.piazza.SessionNavHostFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:tag="my_ads"
+                    />
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/tab_profile"
+                    android:name="com.example.piazza.SessionNavHostFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:tag="profile"
+                    />
+        </ViewFlipper>
 </androidx.constraintlayout.widget.ConstraintLayout>
