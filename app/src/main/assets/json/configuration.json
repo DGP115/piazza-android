@@ -12,6 +12,24 @@
         "uri": "piazza://fragment/web",
         "pull_to_refresh_enabled": true
       }
+    },
+    {
+      "patterns": [
+        "^$", "^/$", "^/profile$"
+      ],
+      "properties": {
+        "uri": "piazza://fragment/web/tab",
+        "presentation": "replace_root"
+      }
+    },
+    {
+      "patterns": [
+        "^/login$", "^/sign_up$"
+      ],
+      "properties": {
+        "context": "modal",
+        "uri": "piazza://fragment/web/modal"
+      }
     }
   ]
 }

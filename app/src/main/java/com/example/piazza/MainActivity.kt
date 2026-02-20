@@ -45,7 +45,6 @@ class MainActivity : AppCompatActivity(), TurboActivity {
     This entails creating an instance of TurboActivityDelegate and passing
     in a reference to the SessionNavHostFragments, of which we have 5.
      */
-
     private fun configureTurboDelegates() {
         delegate =
             TurboActivityDelegate(this, tabsViewModel.tabs.first().id)
@@ -71,6 +70,9 @@ class MainActivity : AppCompatActivity(), TurboActivity {
                 tabsViewModel.indexedTabForId(it.itemId)!!.index
 
             delegate.currentNavHostFragmentId = it.itemId
+            (delegate.currentSessionNavHostFragment.currentNavDestination
+                    as NavDestination).dismissLoginScreen()
+
             delegate.refresh(false)
 
             return@setOnItemSelectedListener true
