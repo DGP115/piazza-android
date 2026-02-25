@@ -2,13 +2,15 @@ package com.example.piazza
 
 import androidx.navigation.NavOptions
 import androidx.navigation.navOptions
+
+import dev.hotwire.strada.BridgeDestination
 import dev.hotwire.turbo.config.TurboPathConfigurationProperties
 import dev.hotwire.turbo.config.context
 import dev.hotwire.turbo.nav.TurboNavDestination
 import dev.hotwire.turbo.nav.TurboNavPresentationContext
 import java.net.URL
 
-interface NavDestination: TurboNavDestination {
+interface NavDestination: TurboNavDestination, BridgeDestination {
 
     override fun getNavigationOptions(
         newLocation: String,
@@ -70,6 +72,10 @@ interface NavDestination: TurboNavDestination {
     }
     private fun isExternal(location: String): Boolean {
         return !location.startsWith(Api.rootUrl)
+    }
+
+    override fun bridgeWebViewIsReady(): Boolean {
+        return session.isReady
     }
 
 }

@@ -8,6 +8,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import dev.hotwire.turbo.activities.TurboActivity
 import dev.hotwire.turbo.delegates.TurboActivityDelegate
 
+import dev.hotwire.strada.KotlinXJsonConverter
+import dev.hotwire.strada.Strada
+
 class MainActivity : AppCompatActivity(), TurboActivity {
     override lateinit var delegate: TurboActivityDelegate
     lateinit var tabBar: BottomNavigationView
@@ -34,6 +37,8 @@ class MainActivity : AppCompatActivity(), TurboActivity {
 
         // Register each tab's SessionNavHostFragment with Turbo Native
         configureTurboDelegates()
+
+        configureStrada()
 
         // Handle logic for switching between tabs
         configureTabs()
@@ -77,5 +82,9 @@ class MainActivity : AppCompatActivity(), TurboActivity {
 
             return@setOnItemSelectedListener true
         }
+    }
+
+    private fun configureStrada() {
+        Strada.config.jsonConverter = KotlinXJsonConverter()
     }
 }

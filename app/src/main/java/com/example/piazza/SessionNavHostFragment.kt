@@ -8,13 +8,16 @@ import kotlin.reflect.KClass
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
 
+import android.webkit.WebView
+import dev.hotwire.strada.Bridge
+import dev.hotwire.strada.Strada
+
 
 //This class defines everything the session needs to know to communicate with
 //the Rails server and perform navigation.
 class SessionNavHostFragment : TurboSessionNavHostFragment() {
     override var sessionName = "default"
     override var startLocation = Api.rootUrl
-   // override var startLocation = "https://google.com"
 
     val tabsViewModel: TabsViewModel by activityViewModels()
 
@@ -44,8 +47,9 @@ class SessionNavHostFragment : TurboSessionNavHostFragment() {
     //requests made from the app.
     override fun onSessionCreated() {
         super.onSessionCreated()
-        session.webView.settings.userAgentString =
-            "Piazza Turbo Native Android"
+        session.webView.settings.userAgentString = session.webView.customUserAgent
+
+        Bridge.initialize(session.webView)
     }
 
     //Pass in the path configuration.
@@ -54,4 +58,10 @@ class SessionNavHostFragment : TurboSessionNavHostFragment() {
         get() = TurboPathConfiguration.Location(
             assetFilePath = "json/configuration.json"
        )
+
+    private val WebView.customUserAgent: String
+        get() {
+            val stradaSubstring = Strada.userAgentSubstring(bridgeComponentFactories)
+            return "Piazza Turbo Native Android; $stradaSubstring;${settings.userAgentString}"
+        }
 }
