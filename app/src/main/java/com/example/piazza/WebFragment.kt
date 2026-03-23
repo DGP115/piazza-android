@@ -10,6 +10,8 @@ import dev.hotwire.strada.BridgeDelegate
 import dev.hotwire.turbo.views.TurboWebView
 
 @TurboNavGraphDestination(uri = "piazza://fragment/web")
+
+// WebFragment is a subclass of TurboWebFragment and implements the NavDestination interface.
 open class WebFragment :
     TurboWebFragment() , NavDestination {
 

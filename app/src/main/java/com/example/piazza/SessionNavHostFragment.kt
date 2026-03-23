@@ -16,7 +16,7 @@ import dev.hotwire.strada.Strada
 //This class defines everything the session needs to know to communicate with
 //the Rails server and perform navigation.
 class SessionNavHostFragment : TurboSessionNavHostFragment() {
-    override var sessionName = "default"
+    override var sessionName = ""
     override var startLocation = Api.rootUrl
 
     val tabsViewModel: TabsViewModel by activityViewModels()
@@ -37,6 +37,10 @@ class SessionNavHostFragment : TurboSessionNavHostFragment() {
             TabbedWebFragment::class
         )
 
+    //  The sessionName of each TurboSessionNavHostFragment in an app
+    //  has to be unique, so "default" can’t be used. It’s now assigned dynamically
+    //  when the fragment is created using a tag value from the XML. The start
+    //  location is set based on the value in the View Model.
     override fun onCreate(savedInstanceState: Bundle?) {
         sessionName = "tab_$tag"
         tabsViewModel.tabForId(id)?.url?.let { startLocation = it }

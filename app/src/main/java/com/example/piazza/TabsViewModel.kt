@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 class TabsViewModel : ViewModel() {
     data class Tab(val id: Int, val url: String)
     val tabs: List<Tab> = createTabs()
+
     fun tabForUrl(url: String): Tab? {
         return tabs.find { it.url == url }
     }

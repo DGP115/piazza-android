@@ -11,6 +11,11 @@ import dev.hotwire.turbo.delegates.TurboActivityDelegate
 import dev.hotwire.strada.KotlinXJsonConverter
 import dev.hotwire.strada.Strada
 
+//  The Turbo Native configuration and tab switching logic is defined here
+//  This is the outermost layer in the Android UI hierarchy
+//  So, it must contain a SessionNavHostFragment.
+//   - Then, an instance of TurboActivityDelegate has to be instantiated with a reference to that
+//     SessionNavHostFragment so Turbo Native can find it.
 class MainActivity : AppCompatActivity(), TurboActivity {
     override lateinit var delegate: TurboActivityDelegate
     lateinit var tabBar: BottomNavigationView
@@ -26,7 +31,7 @@ class MainActivity : AppCompatActivity(), TurboActivity {
 
     /*
     Below, the call to setContentView which is passed a reference to the
-    XML layout of the activities [activity_man]. This means the layout XML will be
+    XML layout of the activities [activity_main.xml]. This means the layout XML will be
     deserialized and laid out within the MainActivity when it is displayed.
     That puts SessionNavHostFragment on screen and Turbo Native takes
     care of the rest!
@@ -64,8 +69,8 @@ class MainActivity : AppCompatActivity(), TurboActivity {
     //   The listener on the tabBar is fired whenever a new item is selected.
     //   Within it, the displayed view is updated to the one corresponding to the selected tab.
     //
-    // TurboActivityDelegate is also updated with the newly selected
-    // NavHostFragment and its web view is refreshed.
+    //    TurboActivityDelegate is also updated with the newly selected NavHostFragment and
+    //    its web view is refreshed.
     private fun configureTabs() {
         tabSwitcher = findViewById(R.id.tabSwitcher)
         tabBar = findViewById(R.id.tabBar)

@@ -5,7 +5,9 @@
 
     A SessionNavHostFragment needs to be added within this class. Then, an instance
     of TurboActivityDelegate has to be instantiated with a reference to that
-    SessionNavHostFragment so Turbo Native can find it. -->
+    SessionNavHostFragment so Turbo Native can find it.
+
+    This file is like Android's version of html -->
 
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
