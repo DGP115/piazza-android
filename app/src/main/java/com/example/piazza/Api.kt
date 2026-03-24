@@ -8,7 +8,7 @@ class Api {
         // When running this app on your Android phone, replace 192.168.*.*
         // with the ip address of the PC running the rails server
         private val baseUrl = if(BuildConfig.DEBUG)
-            "http://192.168.68.103:3000"
+            "http://192.168.68.111:3000"
         else
             "https://piazza-web-61uo.onrender.com"
         val rootUrl = "$baseUrl/"

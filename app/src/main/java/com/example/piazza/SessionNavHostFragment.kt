@@ -12,11 +12,17 @@ import android.webkit.WebView
 import dev.hotwire.strada.Bridge
 import dev.hotwire.strada.Strada
 
+// DGP:  Added error logging:
+import android.util.Log
+import android.webkit.WebResourceError
+import android.webkit.WebResourceRequest
+import android.webkit.WebViewClient
+
 
 //This class defines everything the session needs to know to communicate with
 //the Rails server and perform navigation.
 class SessionNavHostFragment : TurboSessionNavHostFragment() {
-    override var sessionName = ""
+    override var sessionName = "default"
     override var startLocation = Api.rootUrl
 
     val tabsViewModel: TabsViewModel by activityViewModels()
@@ -43,14 +49,52 @@ class SessionNavHostFragment : TurboSessionNavHostFragment() {
     //  location is set based on the value in the View Model.
     override fun onCreate(savedInstanceState: Bundle?) {
         sessionName = "tab_$tag"
+
+        //DGP:  Logging code:
+       // android.util.Log.d("PIAZZA_URL", "Api.rootUrl = ${Api.rootUrl}")
+       // android.util.Log.d("PIAZZA_URL", "tab url = ${tabsViewModel.tabForId(id)?.url}")
+
         tabsViewModel.tabForId(id)?.url?.let { startLocation = it }
+
+        ////DGP:  Logging code:
+       // android.util.Log.d("PIAZZA_URL", "final startLocation = $startLocation")
+
         super.onCreate(savedInstanceState)
     }
 
-    //The user agent is set on the session’s web view so the Rails server can detect
+    //The user agent is set on the session’s webview so the Rails server can detect
     //requests made from the app.
     override fun onSessionCreated() {
         super.onSessionCreated()
+
+        //DGP error logging:
+/*        session.webView.webViewClient = object : WebViewClient() {
+            override fun onReceivedError(
+                view: WebView?,
+                request: WebResourceRequest?,
+                error: WebResourceError?
+            ) {
+                Log.e(
+                    "WEBVIEW_ERROR",
+                    "url=${request?.url} code=${error?.errorCode} desc=${error?.description}"
+                )
+                super.onReceivedError(view, request, error)
+            }
+
+            override fun onReceivedHttpError(
+                view: WebView?,
+                request: WebResourceRequest?,
+                errorResponse: android.webkit.WebResourceResponse?
+            ) {
+                Log.e(
+                    "WEBVIEW_HTTP",
+                    "url=${request?.url} status=${errorResponse?.statusCode} reason=${errorResponse?.reasonPhrase}"
+                )
+                super.onReceivedHttpError(view, request, errorResponse)
+            }
+        }*/
+        //  DGP: Error logging end
+
         session.webView.settings.userAgentString = session.webView.customUserAgent
 
         Bridge.initialize(session.webView)
@@ -68,4 +112,7 @@ class SessionNavHostFragment : TurboSessionNavHostFragment() {
             val stradaSubstring = Strada.userAgentSubstring(bridgeComponentFactories)
             return "Piazza Turbo Native Android; $stradaSubstring;${settings.userAgentString}"
         }
+
 }
+
+

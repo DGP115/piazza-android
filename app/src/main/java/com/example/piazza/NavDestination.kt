@@ -11,6 +11,10 @@ import dev.hotwire.turbo.nav.TurboNavPresentationContext
 import java.net.URL
 
 interface NavDestination: TurboNavDestination, BridgeDestination {
+    val tabsViewModel: TabsViewModel
+        get() =
+            (sessionNavHostFragment as SessionNavHostFragment)
+                .tabsViewModel
 
     override fun getNavigationOptions(
         newLocation: String,
@@ -42,6 +46,10 @@ interface NavDestination: TurboNavDestination, BridgeDestination {
     // and instead, execute its instruction.
     override fun shouldNavigateTo(newLocation: String): Boolean {
         return when {
+            isTabUrl(newLocation) -> {
+                switchToTabForUrl(newLocation)
+                false
+            }
             isExternal(newLocation) -> {
                 //TODO: open in browser
                 false
@@ -52,6 +60,22 @@ interface NavDestination: TurboNavDestination, BridgeDestination {
             }
             else -> true
         }
+    }
+
+    fun switchToTabForUrl(url: String) {
+
+        val mainActivity =
+            sessionNavHostFragment.activity as MainActivity
+        val tabId = tabsViewModel.tabForUrl(url)?.id ?: R.id.tab_home
+
+        when(pathProperties.context) {
+            TurboNavPresentationContext.MODAL -> navigateUp()
+            else -> {}
+        }
+        mainActivity.tabBar.selectedItemId = tabId
+    }
+    private fun isTabUrl(url: String): Boolean {
+        return tabsViewModel.tabForUrl(url) != null
     }
 
     fun dismissLoginScreen() {
