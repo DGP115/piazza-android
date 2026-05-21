@@ -15,7 +15,7 @@
     },
     {
       "patterns": [
-        "^$", "^/$", "^/profile$"
+        "^$", "^/$", "^/profile$", "^/my_listings$"
       ],
       "properties": {
         "uri": "piazza://fragment/web/tab",
@@ -24,7 +24,11 @@
     },
     {
       "patterns": [
-        "^/login$", "^/sign_up$"
+        "^/login$",
+        "^/sign_up$",
+        "^/users/password_resets/*",
+        "/new$",
+        "/edit$"
       ],
       "properties": {
         "context": "modal",

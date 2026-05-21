@@ -4,12 +4,18 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.ViewFlipper
 import androidx.activity.viewModels
+import androidx.core.view.WindowCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dev.hotwire.turbo.activities.TurboActivity
 import dev.hotwire.turbo.delegates.TurboActivityDelegate
 
 import dev.hotwire.strada.KotlinXJsonConverter
 import dev.hotwire.strada.Strada
+
+//  The outermost layer of the view hierarchy is the MainActivity.
+//      A SessionNavHostFragment needs to be added within it.
+//      Then, an instance of TurboActivityDelegate has to be instantiated with a reference to that
+//      SessionNavHostFragment so Turbo Native can find it.
 
 //  The Turbo Native configuration and tab switching logic is defined here
 //  This is the outermost layer in the Android UI hierarchy
@@ -38,6 +44,9 @@ class MainActivity : AppCompatActivity(), TurboActivity {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        WindowCompat.setDecorFitsSystemWindows(window, true)
+
         setContentView(R.layout.activity_main)
 
         // Register each tab's SessionNavHostFragment with Turbo Native
@@ -58,6 +67,7 @@ class MainActivity : AppCompatActivity(), TurboActivity {
     private fun configureTurboDelegates() {
         delegate =
             TurboActivityDelegate(this, tabsViewModel.tabs.first().id)
+
         tabsViewModel.tabs.forEach {
             delegate.registerNavHostFragment(it.id)
         }

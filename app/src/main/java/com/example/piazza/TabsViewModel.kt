@@ -25,7 +25,7 @@ class TabsViewModel : ViewModel() {
             Tab(R.id.tab_home, Api.rootUrl),
             Tab(R.id.tab_saved_ads, Api.rootUrl),
             Tab(R.id.tab_messages, Api.rootUrl),
-            Tab(R.id.tab_my_ads, Api.rootUrl),
+            Tab(R.id.tab_my_ads, Api.myAdsUrl),
             Tab(R.id.tab_profile, Api.profileUrl)
         )
     }

@@ -5,6 +5,13 @@ import dev.hotwire.strada.BridgeDelegate
 import dev.hotwire.strada.Message
 
 import android.util.Log
+import android.view.MenuItem
+
+import androidx.appcompat.widget.AppCompatTextView
+import android.view.Gravity
+import android.view.ViewGroup
+import android.graphics.Color
+import android.util.TypedValue
 
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.SerialName
@@ -26,43 +33,83 @@ class NavMenuComponent(
             "disconnect" -> clearMenu()
             else -> Log.w("Piazza", "Unknown event for message: $message")
         }
+        Log.d("Piazza", "NavMenu received event=${message.event}")
     }
 
     private fun renderMenu(message: Message) {
-        val data = message.data<MessageData>() ?: return
-        data.items.forEach { addMenuItem(it) }
-    }
+        Log.d("Piazza", "NavMenu renderMenu called")
 
-    private fun addMenuItem(menuItem: NavMenuItem) {
-        val item = this.fragment
-            .sessionNavHostFragment
-            .currentNavDestination
-            .toolbarForNavigation()
-            ?.menu
-            ?.add(
-                0,
-                menuItem.index,
-                menuItem.index,
-                menuItem.title
-            )
-            ?: return
+        val data = message.data<MessageData>()
 
-        item.setOnMenuItemClickListener {
-            // Reply to message
-            replyTo(
-                event = "connect",
-                data = ResponseData(selectedIndex = menuItem.index)
-            )
-            return@setOnMenuItemClickListener true
+        Log.d( "Piazza", "NavMenu data=$data")
+
+        if (data == null) {
+            Log.e("Piazza", "NavMenu message data could not be deserialized")
+            return
+        }
+
+        Log.d("Piazza", "NavMenu items=${data.items}")
+
+        // Clear the toolbar before adding new items
+        // (otherwise every time 'Create Ad is clicked a new 'Create Ad' button is added)
+        val toolbar = fragment.toolbarForNavigation() ?: return
+        toolbar.menu.clear()
+
+        // Now add the menu item(s)
+        data.items.forEach {
+            item -> addMenuItem(item)
         }
     }
 
+    private fun addMenuItem(item: NavMenuItem) {
+        val toolbar = fragment.toolbarForNavigation() ?: return
+
+        val menuItemId = 1000 + item.index
+
+        val menuItem = toolbar.menu.add(
+            0,
+            menuItemId,
+            item.index,
+            item.title
+        )
+
+        val textButton = AppCompatTextView(fragment.requireContext()).apply {
+            text = item.title
+            setTextColor(Color.BLACK)
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
+            gravity = Gravity.CENTER
+            isClickable = true
+            isFocusable = true
+            setPadding(32, 0, 32, 0)
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+
+            setOnClickListener {
+                Log.d("Piazza", "NavMenu text button clicked ${item.title}")
+
+                replyTo(
+                    event = "connect",
+                    data = ResponseData(selectedIndex = item.index)
+                )
+            }
+        }
+
+        menuItem.actionView = textButton
+        menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+
+        Log.d("Piazza", "added menu item=${item.title}, menu size=${toolbar.menu.size()}")
+    }
+
     private fun clearMenu() {
-        this.fragment.sessionNavHostFragment
-            .currentNavDestination
-            .toolbarForNavigation()
-            ?.menu
-            ?.clear()
+        Log.d("Piazza", "NavMenu clearMenu called")
+        fragment.toolbarForNavigation()?.menu?.clear()
+      //  this.fragment.sessionNavHostFragment
+      //      .currentNavDestination
+      //      .toolbarForNavigation()
+       //     ?.menu
+        //    ?.clear() //
     }
 
     @Serializable

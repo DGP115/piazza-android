@@ -67,34 +67,6 @@ class SessionNavHostFragment : TurboSessionNavHostFragment() {
     override fun onSessionCreated() {
         super.onSessionCreated()
 
-        //DGP error logging:
-/*        session.webView.webViewClient = object : WebViewClient() {
-            override fun onReceivedError(
-                view: WebView?,
-                request: WebResourceRequest?,
-                error: WebResourceError?
-            ) {
-                Log.e(
-                    "WEBVIEW_ERROR",
-                    "url=${request?.url} code=${error?.errorCode} desc=${error?.description}"
-                )
-                super.onReceivedError(view, request, error)
-            }
-
-            override fun onReceivedHttpError(
-                view: WebView?,
-                request: WebResourceRequest?,
-                errorResponse: android.webkit.WebResourceResponse?
-            ) {
-                Log.e(
-                    "WEBVIEW_HTTP",
-                    "url=${request?.url} status=${errorResponse?.statusCode} reason=${errorResponse?.reasonPhrase}"
-                )
-                super.onReceivedHttpError(view, request, errorResponse)
-            }
-        }*/
-        //  DGP: Error logging end
-
         session.webView.settings.userAgentString = session.webView.customUserAgent
 
         Bridge.initialize(session.webView)

@@ -2,6 +2,7 @@ package com.example.piazza
 
 import android.os.Bundle
 import android.view.View
+import android.util.Log
 
 import dev.hotwire.turbo.fragments.TurboWebFragment
 import dev.hotwire.turbo.nav.TurboNavGraphDestination
@@ -31,6 +32,7 @@ open class WebFragment : TurboWebFragment() , NavDestination {
     override fun onColdBootPageStarted(location: String) {
         bridgeDelegate.onColdBootPageStarted()
     }
+
     override fun onColdBootPageCompleted(location: String) {
         bridgeDelegate.onColdBootPageCompleted()
     }
@@ -61,6 +63,15 @@ open class WebFragment : TurboWebFragment() , NavDestination {
 
     override fun onVisitStarted(location: String) {
         super.onVisitStarted(location)
-        toolbarForNavigation()?.menu?.clear()
+       // toolbarForNavigation()?.menu?.clear()
     }
+
+    //DGP Added to help debugging
+    override fun onVisitCompleted(location: String, completedOffline: Boolean) {
+        super.onVisitCompleted(location, completedOffline)
+
+        Log.d("PIAZZA_URL", "Visited: $location")
+    }
+
+
 }
